@@ -93,6 +93,10 @@
 				self.layerContentsPlacement = NSViewLayerContentsPlacementTopLeft;
 			} else if (right) {
 				self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
+			} else if (top) {
+				self.layerContentsPlacement = NSViewLayerContentsPlacementBottom;
+			} else if (bottom) {
+				self.layerContentsPlacement = NSViewLayerContentsPlacementTop;
 			}
 		}
 		wd.last_frame_rect = frameRect;
