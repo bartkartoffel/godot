@@ -10,6 +10,12 @@ inputs:
   platform:
     description: Target platform.
     required: false
+  arch:
+    description: Target architecture.
+    required: false
+  build-mono:
+    description: Enable mono.
+    required: false
   sconsflags:
     default: ""
   scons-cache:
@@ -30,7 +36,7 @@ runs:
           SCONS_CACHE: ${{ inputs.scons-cache }}
           SCONS_CACHE_LIMIT: ${{ inputs.scons-cache-limit }}
       run: |
-        echo "Building with flags:" platform=${{ inputs.platform }} target=${{ inputs.target }} tests=${{ inputs.tests }} ${{ env.SCONSFLAGS }}
+        echo "Building with flags:" platform=${{ inputs.platform }} target=${{ inputs.target }} arch=${{ inputs.arch }} tests=${{ inputs.tests }} ${{ (inputs.build-mono && 'module_mono_enabled=yes') || '' }} ${{ env.SCONSFLAGS }}
 
         if [ "${{ inputs.target }}" != "editor" ]; then
           # Ensure we don't include editor code in export template builds.
@@ -44,5 +50,5 @@ runs:
           export BUILD_NAME="gh"
         fi
 
-        scons platform=${{ inputs.platform }} target=${{ inputs.target }} tests=${{ inputs.tests }} ${{ env.SCONSFLAGS }}
+        scons platform=${{ inputs.platform }} target=${{ inputs.target }} arch=${{ inputs.arch }} tests=${{ inputs.tests }} ${{ (inputs.build-mono && 'module_mono_enabled=yes') || '' }} ${{ env.SCONSFLAGS }}
         ls -l bin/
